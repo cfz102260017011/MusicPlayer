@@ -32,6 +32,9 @@
 @property (nonatomic, strong) UIImageView *icon;
 @property (nonatomic, strong) PlayerHeaderView *headerView;
 @property (nonatomic, assign) NSInteger angle;
+
+
+
 @end
 
 @implementation PlayerController
@@ -62,6 +65,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    for (int i = 0; i < self.musicAry.count; i++) {
+//        self.musicModel.idd = self.musicAry[i];
+//        self.row = i;
+//    }
     
     self.angle = 0;
     
@@ -204,12 +212,33 @@
 
 - (void)startAnimation
 {
-    
+   
     __block PlayerController *play = self;
     [UIView animateWithDuration:5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        //transframe属性（形变     CGAffineTransformMakeRotation  旋转角度    CGAffineTransformMakeScale  变化尺度
+        /*     http://www.cnblogs.com/wendingding/p/3742092.html
+        （1） 创建“基于控件初始位置”的形变
+        
+        CGAffineTransformMakeTranslation（平移）
+        
+        CGAffineTransformMakeScale（缩放）
+        
+        CGAffineTransformMakeRotation（旋转）
+        
+        
+        
+        （2） 创建“基于transform参数”的形变
+        
+        CGAffineTransformTranslate
+        
+        CGAffineTransformScale
+        
+        CGAffineTransformRotate
+        */
+
         play.icon.transform = CGAffineTransformMakeRotation(play.angle);
     } completion:^(BOOL finished) {
-        play.angle += 90;
+        play.angle += M_PI_2;
         [play startAnimation];
     }];
     
@@ -281,9 +310,19 @@
         
     }];
     
+    
+    
+    NSInteger count = self.musicAry.count;
+    
     // 点击上一首
     [self.playerFooter setLastButtonBlock:^(){
-    
+        if (self.row == 0) {
+            play.row = count - 1;
+        }else{
+            play.row -= 1;
+        }
+        play.musicModel = play.musicAry[play.row];
+        [play createPlayer];
     }];
     
     // 点击暂停/开始
@@ -305,8 +344,17 @@
     }];
     
     // 点击下一首
+
+
     [self.playerFooter setNextButtonBlock:^(){
         
+        if (self.row == count - 1) {
+            play.row = 0;
+        }else{
+            play.row += 1;
+        }
+         play.musicModel = play.musicAry[play.row];
+        [play createPlayer];
     }];
     
     // 点击循环播放

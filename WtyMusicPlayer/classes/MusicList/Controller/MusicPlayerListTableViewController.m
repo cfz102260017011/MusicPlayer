@@ -46,6 +46,7 @@
 - (void)pushPlayerViewController
 {
     PlayerController *player = [PlayerController sharedManager];
+    player.row = self.row;
     [self.navigationController pushViewController:player animated:YES];
 }
 
@@ -122,6 +123,8 @@
     PlayerController *play = [PlayerController sharedManager];
     play.musicModel = self.dataArray[indexPath.row];
     self.row = indexPath.row;
+    play.row = self.row;
+    play.musicAry = self.dataArray;
     [self.navigationController pushViewController:play animated:YES];
 }
 

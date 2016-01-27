@@ -12,8 +12,8 @@
 
 @interface PlayerController : BaseViewController
 @property (nonatomic, strong) MusicModel *musicModel;
-
-
+@property (nonatomic, strong) NSMutableArray *musicAry;
+@property (nonatomic, assign) NSInteger row;
 + (PlayerController *)sharedManager;
 
 @end

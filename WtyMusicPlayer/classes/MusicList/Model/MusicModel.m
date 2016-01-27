@@ -22,7 +22,7 @@
     return [[self alloc] initWithDict:dict];
 }
 
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key    //这个方法能过滤掉不存在的键值  还有与系统关键字如id
 {
     if ([key isEqualToString:@"id"]) {
         self.idd = value;
